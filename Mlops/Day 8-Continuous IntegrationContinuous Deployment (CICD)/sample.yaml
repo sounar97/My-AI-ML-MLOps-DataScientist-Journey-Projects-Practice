@@ -1,0 +1,21 @@
+# Create .gitlab-ci.yml
+image: docker:latest
+
+stages:
+  - build
+  - test
+  - deploy
+
+build:
+  stage: build
+  script:
+    - docker build -t my-image .
+  artifacts:
+    paths:
+      - docker-compose.yml
+
+test:
+  stage: test
+  script:
+    - docker-compose up -d
+    - docker-compose exec my-service tests
